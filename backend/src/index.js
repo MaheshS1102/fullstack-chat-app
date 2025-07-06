@@ -14,7 +14,7 @@ import { app, server } from "./lib/socket.js";
 
 dotenv.config();
 
-// ✅ Fix for __dirname in ES Modules
+// Fix __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -25,7 +25,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "http://localhost:5173", // ✅ Replace this with your frontend URL if deployed
+    origin: "http://localhost:5173", // or your frontend deployed URL
     credentials: true,
   })
 );
@@ -33,12 +33,13 @@ app.use(
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
-// ✅ Serve frontend dist folder in production
+// ✅ FIXED: Serve frontend from correct absolute path
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+  const frontendPath = path.resolve(__dirname, "../../frontend/dist");
+  app.use(express.static(frontendPath));
 
   app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+    res.sendFile(path.join(frontendPath, "index.html"));
   });
 }
 
