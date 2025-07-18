@@ -94,18 +94,18 @@ export const useAuthStore = create((set, get) => ({
 
   socket.connect();
 
-  // ⬇️ EMIT add-user after connect
+  //  EMIT add-user after connect
   socket.on("connect", () => {
     socket.emit("add-user", authUser._id);
-    console.log("✅ Emitted add-user with ID:", authUser._id);
+    console.log(" Emitted add-user with ID:", authUser._id);
   });
 
-  // ⬇️ Store socket
+  // ⬇Store socket
   set({ socket: socket });
 
-  // ⬇️ Listen for online users
+  // ⬇Listen for online users
   socket.on("getOnlineUsers", (userIds) => {
-    console.log("👥 Online users received:", userIds);
+    console.log(" Online users received:", userIds);
     set({ onlineUsers: userIds });
   });
 },

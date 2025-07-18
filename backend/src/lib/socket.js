@@ -21,7 +21,7 @@ export function getReceiverSocketId(userId) {
 
 // Handle socket connections
 io.on("connection", (socket) => {
-  console.log("✅ A user connected:", socket.id);
+  console.log(" A user connected:", socket.id);
 
   // Get userId from query (sent during socket connection)
   const userId = socket.handshake.query.userId;
@@ -35,11 +35,11 @@ io.on("connection", (socket) => {
 
   // Emit updated online users list to everyone
   io.emit("getOnlineUsers", Object.keys(userSocketMap));
-  console.log("🌐 Online users:", Object.keys(userSocketMap));
+  console.log(" Online users:", Object.keys(userSocketMap));
 
   // Handle disconnect
   socket.on("disconnect", () => {
-    console.log("❌ A user disconnected:", socket.id);
+    console.log(" A user disconnected:", socket.id);
 
     const disconnectedUserId = socket.data.userId;
     if (disconnectedUserId) {
@@ -47,7 +47,7 @@ io.on("connection", (socket) => {
     }
 
     io.emit("getOnlineUsers", Object.keys(userSocketMap));
-    console.log("🌐 Online users after disconnect:", Object.keys(userSocketMap));
+    console.log(" Online users after disconnect:", Object.keys(userSocketMap));
   });
 });
 
